@@ -141,7 +141,7 @@ header {
   padding: 2vh 2vw;
   display: flex;
   flex-flow: row wrap;
-  flex: 1;
+  /*flex: 1;*/
   justify-content: flex-start;
 }
 
@@ -154,7 +154,7 @@ header {
   flex-direction: column;
   gap: 1vh;
   padding: 1vh 1vw;
-  flex: 1;
+  /*flex: 1;*/
 }
 
 
@@ -166,30 +166,15 @@ header {
   flex-direction: column;
   gap: 1vh;
   padding: 1vh 1vw;
-  flex: 2;
+  /*flex: 2;*/
 }
-
-
-/* ### TODO ### Styles for Footer Component */
-
-/* ... your code here ... */
-footer {
-  background-color: #efefef;
-  padding: 2vh;
-  border: 1px solid #cdcdcd;
-}
-
-
-/* ### TODO ### Media Queries */
-
-/* ... your code here ... */
 .discovery__wrapper {
   display: flex;
   flex-flow: row wrap;
   gap: 1vw;
 }
 .discovery__taglist {
-  flex: 1;
+  /*flex: 1;*/
 }
 .discovery__results {
   display: flex;
@@ -206,5 +191,27 @@ ul li {
 .discovery__map {
   display: flex;
   flex-direction: column;
-  flex: 2;
+}
+
+
+/* ### TODO ### Styles for Footer Component */
+
+/* ... your code here ... */
+footer {
+  background-color: #efefef;
+  padding: 2vh;
+  border: 1px solid #cdcdcd;
+}
+
+
+/* ### TODO ### Media Queries */
+
+/* ... your code here ... */
+@media (max-width: 900px) {
+  .row {
+    flex-direction: column;
+  }
+  .main__tagging, .main__discovery, .discovery__taglist, .discovery__map {
+    width: 100%;
+  }
 }
