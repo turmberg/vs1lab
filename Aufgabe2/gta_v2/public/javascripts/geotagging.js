@@ -117,8 +117,26 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
 // ... your code here ...
+function updateLocation() {
+    LocationHelper.findLocation((location) => {
+        document.getElementById("tag-latitude").value = location.latitude;
+        document.getElementById("tag-longitude").value = location.longitude;
+
+        document.getElementById("disc-latitude").value = location.latitude;
+        document.getElementById("disc-longitude").value = location.longitude;
+
+        let mapManager = new MapManager();
+        mapManager.initMap(location.latitude, location.longitude);
+        mapManager.updateMarkers(location.latitude, location.longitude);
+    });
+    
+    let placeholders = document.getElementsByClassName("placeholder");
+    while (placeholders.length > 0) {
+        placeholders[0].parentNode.removeChild(placeholders[0]);
+    }
+}
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    alert("Please change the script 'geotagging.js'");
+    updateLocation();
 });

@@ -214,4 +214,8 @@ footer {
   .main__tagging, .main__discovery, .discovery__taglist, .discovery__map {
     width: 100%;
   }
+
+#map { 
+   height: 500px;
+ }
 }
