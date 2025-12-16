@@ -12,6 +12,7 @@
 
 const express = require('express');
 const router = express.Router();
+const global_radius = 1000000;
 
 /**
  * The module "geotag" exports a class GeoTagStore. 
@@ -30,6 +31,8 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const GeoTagExamples = require('../models/geotag-examples');
+var geoTagStore = new GeoTagStore();
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -42,7 +45,12 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  const userLatitude = req.body.Latitude || ''; //TODO
+  console.log('body: ', req.body);
+  const userLongitude = req.body.Longitude || ''; //TODO
+  const taglist = geoTagStore.getNearbyGeoTags(userLatitude, userLongitude, global_radius);
+  //console.log('taglist:', taglist);
+  res.render('index', { taglist, userLatitude, userLongitude});
 });
 
 /**
@@ -62,6 +70,19 @@ router.get('/', (req, res) => {
 
 // TODO: ... your code here ...
 
+router.post('/tagging', (req, res) => {
+  const userLatitude = req.body.Latitude;
+  console.log(res.body);
+  const userLongitude = req.body.Longitude;
+  const name = req.body.tag_name || '';
+  const hashtag = req.body.tag_hashtag || '';
+  const newTag = new GeoTag(name, userLatitude, userLongitude, hashtag);
+  geoTagStore.addGeoTag(newTag);
+  const taglist = geoTagStore.getNearbyGeoTags(userLatitude, userLongitude, global_radius);
+  console.log('taglist:', taglist);
+  res.render('index', {taglist, userLatitude, userLongitude});
+})
+
 /**
  * Route '/discovery' for HTTP 'POST' requests.
  * (http://expressjs.com/de/4x/api.html#app.post.method)
@@ -79,5 +100,16 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+
+router.get('/discovery', (req, res) => {
+  res.redirect('/');
+});
+
+router.post('/discovery', (req, res) => {
+  const {name, latitude, longitude, keyword} = req.body;
+  const closeTags = geoTagStore.searchNearbyGeoTags(latitude, longitude, global_radius, keyword);
+
+  res.render('index', {taglist: closeTags, latitude: latitude, longitude: longitude});
+});
 
 module.exports = router;
