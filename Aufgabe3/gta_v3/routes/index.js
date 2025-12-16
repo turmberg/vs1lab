@@ -106,10 +106,15 @@ router.get('/discovery', (req, res) => {
 });
 
 router.post('/discovery', (req, res) => {
-  const {name, latitude, longitude, keyword} = req.body;
-  const closeTags = geoTagStore.searchNearbyGeoTags(latitude, longitude, global_radius, keyword);
+  const userLatitude = req.body.Latitude || '';
+  const userLongitude = req.body.Longitude || '';
+  const keyword = req.body.keyword || '';
+  console.log ("lat: ", userLatitude);
+  console.log ("long: ", userLongitude);
+  console.log ("key: ", keyword);
+  const taglist = geoTagStore.searchNearbyGeoTags(userLatitude, userLongitude, 10, keyword);
 
-  res.render('index', {taglist: closeTags, latitude: latitude, longitude: longitude});
+  res.render('index', {taglist, userLatitude, userLongitude});
 });
 
 module.exports = router;
