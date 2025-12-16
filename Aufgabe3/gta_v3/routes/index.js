@@ -46,10 +46,8 @@ var geoTagStore = new GeoTagStore();
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
   const userLatitude = req.body.Latitude || ''; //TODO
-  console.log('body: ', req.body);
   const userLongitude = req.body.Longitude || ''; //TODO
   const taglist = geoTagStore.getNearbyGeoTags(userLatitude, userLongitude, global_radius);
-  //console.log('taglist:', taglist);
   res.render('index', { taglist, userLatitude, userLongitude});
 });
 
@@ -71,15 +69,14 @@ router.get('/', (req, res) => {
 // TODO: ... your code here ...
 
 router.post('/tagging', (req, res) => {
-  const userLatitude = req.body.Latitude;
-  console.log(res.body);
-  const userLongitude = req.body.Longitude;
-  const name = req.body.tag_name || '';
-  const hashtag = req.body.tag_hashtag || '';
+  const userLatitude = req.body.Latitude || '';
+  const userLongitude = req.body.Longitude || '';
+  const name = req.body.TagName  || '';
+  const hashtag = req.body.Hashtag  || '';
   const newTag = new GeoTag(name, userLatitude, userLongitude, hashtag);
+  console.log(req.body);
   geoTagStore.addGeoTag(newTag);
   const taglist = geoTagStore.getNearbyGeoTags(userLatitude, userLongitude, global_radius);
-  console.log('taglist:', taglist);
   res.render('index', {taglist, userLatitude, userLongitude});
 })
 
@@ -108,11 +105,8 @@ router.get('/discovery', (req, res) => {
 router.post('/discovery', (req, res) => {
   const userLatitude = req.body.Latitude || '';
   const userLongitude = req.body.Longitude || '';
-  const keyword = req.body.keyword || '';
-  console.log ("lat: ", userLatitude);
-  console.log ("long: ", userLongitude);
-  console.log ("key: ", keyword);
-  const taglist = geoTagStore.searchNearbyGeoTags(userLatitude, userLongitude, 10, keyword);
+  const keyword = req.body.Keyword || '';
+  const taglist = geoTagStore.searchNearbyGeoTags(userLatitude, userLongitude, global_radius, keyword);
 
   res.render('index', {taglist, userLatitude, userLongitude});
 });

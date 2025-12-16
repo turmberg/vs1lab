@@ -39,16 +39,16 @@
                  <fieldset>
                     <legend>Add a new Geotag</legend>
                     <label for="tag-latitude">Latitude</label>
-                    <input type="text" id="tag-latitude" value="<%= userLatitude %>">
+                    <input type="text" id="tag-latitude" name="Latitude" value="<%= userLatitude %>">
 
                     <label for="tag-longitude">Longitude</label>
-                    <input type="text" id="tag-longitude" value="<%= userLongitude %>">
+                    <input type="text" id="tag-longitude" name="Longitude" value="<%= userLongitude %>">
                     
                     <label for="tag-name">Name</label>
-                    <input type="text" id="tag-name" placeholder="e.g. Mensa Moltke" pattern="[A-Za-zÄÖÜöäüß]+\s?[0-9]*" maxlength="10" required>
+                    <input type="text" id="tag-name" name="TagName" placeholder="e.g. Mensa Moltke" pattern="[A-Za-zÄÖÜöäüß]+\s?[0-9]*" maxlength="10" required>
 
                     <label for="tag-hashtag">Hashtag</label>
-                    <input type="text" id="tag-hashtag" placeholder="e.g. #Käsebau" pattern="#[A-Za-zÄÖÜäöüß]+" maxlength="11">
+                    <input type="text" id="tag-hashtag" name="Hashtag" placeholder="e.g. #Käsebau" pattern="#[A-Za-zÄÖÜäöüß]+" maxlength="11">
 
                     <input type="submit" id="tag-button" value="Add Tag">
                  </fieldset>
@@ -69,12 +69,12 @@
                 <fieldset>
                     <legend>Search</legend>
                     <label for="search-term">Search Term or Keyword</label>
-                    <input type="text" id="search-term" placeholder="e.g. Karlsruhe">
+                    <input type="text" id="search-term" name="Keyword" placeholder="e.g. Karlsruhe">
 
                     <input type="submit" id="search-button" value="Search">
 
-                    <input type="text" id="disc-latitude" value="<%= userLatitude %>" hidden>
-                    <input type="text" id="disc-longitude" value="<%= userLongitude %>" hidden>
+                    <input type="text" id="disc-latitude" name="Latitude" value="<%= userLatitude %>" hidden>
+                    <input type="text" id="disc-longitude" name="Longitude" value="<%= userLongitude %>" hidden>
                 </fieldset>
                 
 
