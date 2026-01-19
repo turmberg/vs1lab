@@ -12,6 +12,8 @@
 
 const express = require('express');
 const router = express.Router();
+//FROM A3
+const global_radius = 1000000;
 
 /**
  * The module "geotag" exports a class GeoTagStore. 
@@ -26,6 +28,9 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+//FROM A3
+const GeoTagExamples = require('../models/geotag-examples');
+var geoTagStore = new GeoTagStore();
 
 // App routes (A3)
 
@@ -38,9 +43,45 @@ const GeoTagStore = require('../models/geotag-store');
  * As response, the ejs-template is rendered without geotag objects.
  */
 
+//ROOT
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  const userLatitude = req.body.Latitude || ''; //TODO
+  const userLongitude = req.body.Longitude || ''; //TODO
+  const taglist = geoTagStore.getNearbyGeoTags(userLatitude, userLongitude, global_radius);
+  res.render('index', { taglist, userLatitude, userLongitude});
 });
+
+//TAGGING
+
+router.post('/tagging', (req, res) => {
+  const userLatitude = req.body.Latitude || '';
+  const userLongitude = req.body.Longitude || '';
+  const name = req.body.TagName  || '';
+  const hashtag = req.body.Hashtag  || '';
+  const newTag = new GeoTag(name, userLatitude, userLongitude, hashtag);
+  console.log(req.body);
+  geoTagStore.addGeoTag(newTag);
+  const taglist = geoTagStore.getNearbyGeoTags(userLatitude, userLongitude, global_radius);
+  res.render('index', {taglist, userLatitude, userLongitude});
+})
+
+//DISCOVERY
+
+router.get('/discovery', (req, res) => {
+  res.redirect('/');
+});
+
+router.post('/discovery', (req, res) => {
+  const userLatitude = req.body.Latitude || '';
+  const userLongitude = req.body.Longitude || '';
+  const keyword = req.body.Keyword || '';
+  const taglist = geoTagStore.searchNearbyGeoTags(userLatitude, userLongitude, global_radius, keyword);
+
+  res.render('index', {taglist, userLatitude, userLongitude});
+});
+
+module.exports = router;
+
 
 // API routes (A4)
 
