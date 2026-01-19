@@ -80,8 +80,6 @@ router.post('/discovery', (req, res) => {
   res.render('index', {taglist, userLatitude, userLongitude});
 });
 
-module.exports = router;
-
 
 // API routes (A4)
 
