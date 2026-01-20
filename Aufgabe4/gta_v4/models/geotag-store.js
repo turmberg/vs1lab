@@ -32,9 +32,33 @@ class InMemoryGeoTagStore{
 
     #geoTagStorageField = [];
 
+
     constructor () {
         this.#geoTagStorageField = [];
+        this.nextId = 1;//0 ist default ID sollte nur vergeben sein wenn was schief gelaufen ist.
         this.fillFromSamples();
+    }
+
+    /**TODOs ID
+     * <x> getID
+     * <x> remove by ID
+     * <x> get by ID
+     */
+
+    getID() {
+        return this.nextId++;
+    }
+    removeGeoTagByID(id) {
+        const index = this.#geoTagStorageField.findIndex(tag => tag.id == id);
+        this.#geoTagStorageField.splice(index, 1);
+    }
+    getGeoTagByID(id) {
+        const index = this.#geoTagStorageField.findIndex(tag => tag.id == id);
+        if (index == -1) return null;
+        return this.#geoTagStorageField[index];
+    }
+    getAll() {
+        return this.#geoTagStorageField;
     }
 
     addGeoTag (geotag) {
@@ -73,7 +97,7 @@ class InMemoryGeoTagStore{
         const _longitude = 2;
         const _hashtag = 3;
         GeoTagExamples.tagList.forEach(tag => {
-            this.addGeoTag(new GeoTag(tag[_name],tag[_latitude], tag[_longitude], tag[_hashtag]));
+            this.addGeoTag(new GeoTag(tag[_name],tag[_latitude], tag[_longitude], tag[_hashtag], this.getID()));
         })
     }
 
