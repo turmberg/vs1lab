@@ -82,6 +82,7 @@ function initLocation() {
 
 
 // ... your code here ...
+//defunct
 function updateLocation() {
     const latitude = document.getElementById("disc-latitude").value;
     const longitude = document.getElementById("disc-longitude").value;
